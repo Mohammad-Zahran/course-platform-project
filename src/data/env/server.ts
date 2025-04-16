@@ -1,14 +1,11 @@
-import {createEnv} from '@t3-oss/env-nextjs';
-
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
 export const env = createEnv({
-    server: {
-        DB_HOST: process.env.DB_HOST,
-        DB_NAME: process.env.DB_NAME,
-        DB_PASSWORD: process.env.DB_PASSWORD,
-        DB_USER: process.env.DB_USER,
-    },
-    runtimeEnv: {
-        NODE_ENV: process.env.NODE_ENV,
-    },
-    client: {},
-})
+  server: {
+    DB_HOST: z.string().min(1),
+    DB_NAME: z.string().min(1),
+    DB_PASSWORD: z.string().min(1),
+    DB_USER: z.string().min(1),
+  },
+  experimental__runtimeEnv: process.env,
+});
