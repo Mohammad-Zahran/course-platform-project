@@ -1,14 +1,13 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, uuid, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text } from "drizzle-orm/pg-core";
+import { createdAt, id, updatedAt } from "../schemaHelpers";
 
 export const CourseTable = pgTable("courses", {
-  id: uuid().primaryKey().defaultRandom(),
+  id,
+  name: text().notNull(),
   description: text().notNull(),
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp({ withTimezone: true })
-    .notNull()
-    .defaultNow()
-    .$onUpdate(() => new Date()),
+  createdAt,
+  updatedAt,
 });
 
 export default CourseRelationships = relations(
