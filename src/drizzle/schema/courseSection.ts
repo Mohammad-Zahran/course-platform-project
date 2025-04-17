@@ -1,6 +1,7 @@
 import { integer, pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { CourseTable } from "./course";
+import { relations } from "drizzle-orm";
 
 export const courseSectionStatuses = ["public", "private"] as const;
 export type CourseSectionStatus = (typeof courseSectionStatuses)[number];
@@ -9,7 +10,7 @@ export const courseSectionStatusEnum = pgEnum(
   courseSectionStatuses
 );
 
-export const CourseSectionTable = pgTable("courseSections", {
+export const CourseSectionTable = pgTable("course_sections", {
   id,
   name: text().notNull(),
   status: courseSectionStatusEnum().notNull().default("private"),
@@ -20,3 +21,13 @@ export const CourseSectionTable = pgTable("courseSections", {
   createdAt,
   updatedAt,
 });
+
+export const CourseSectionRelationships = relations(
+  CourseSectionTable,
+  ({ one }) => ({
+    course: one(CourseTable, {
+      fields: [CourseSectionTable.courseId],
+      references: [CourseTable.id],
+    }),
+  })
+);
