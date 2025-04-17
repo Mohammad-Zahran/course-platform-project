@@ -16,3 +16,10 @@ export const ProductTable = pgTable("products", {
   createdAt,
   updatedAt,
 });
+
+export default ProductRelationships = relations(
+  ProductTable,
+  ({ one, many }) => ({
+    test: one(),
+  })
+);
